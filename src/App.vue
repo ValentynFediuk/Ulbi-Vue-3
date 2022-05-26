@@ -1,26 +1,64 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <h1>Page with posts</h1>
+    <my-button
+      @click="showDialog"
+      style="margin: 15px 0"
+    >
+      Create post
+    </my-button>
+    <my-dialog v-model:show="dialogVisible">
+      <post-form
+          @create="createPost"
+      />
+    </my-dialog>
+    <post-list
+        :posts="posts"
+        @remove="removePost"
+    />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PostForm from "@/components/PostForm";
+import PostList from "@/components/PostList";
+import MyDialog from "@/components/UI/MyDialog";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    MyDialog,
+    PostList,
+    PostForm
+  },
+  data() {
+    return {
+      posts: [],
+      dialogVisible: false,
+    }
+  },
+  methods: {
+    createPost(post) {
+      this.posts.push(post)
+      this.dialogVisible = false
+    },
+    removePost(post) {
+      this.posts = this.posts.filter(p => p.id !== post.id)
+    },
+    showDialog() {
+      this.dialogVisible = true
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  padding: 20px;
 }
 </style>
