@@ -30,6 +30,7 @@ export default {
       post: {
         title: '',
         body: '',
+        selectedFile: null,
       }
     }
   },
